@@ -28,6 +28,14 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     return crud.create_user(db=db, user=user)
 
 
+@app.delete("/users/delete/{user_id}", response_model=schemas.User)
+def delete_user(user: schemas.UserDelete, db: Session = Depends(get_db)):
+    db_user = crud.get_user_by_email(db, email=user.email)
+    if not db_user:
+        raise HTTPException(status_code=400, detail="User does not exist")
+    return crud.delete_user(db=db, user=user)
+
+
 @app.get("/users/", response_model=List[schemas.User])
 def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     users = crud.get_users(db, skip=skip, limit=limit)

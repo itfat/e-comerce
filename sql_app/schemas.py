@@ -28,6 +28,10 @@ class UserCreate(UserBase):
     password: str
 
 
+class UserDelete(UserBase):
+    id: int
+
+
 class User(UserBase):
     id: int
     is_active: bool

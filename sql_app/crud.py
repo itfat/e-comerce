@@ -34,3 +34,9 @@ def create_user_item(db: Session, item: schemas.ItemCreate, user_id: int):
     db.commit()
     db.refresh(db_item)
     return db_item
+
+def delete_user(db: Session, user: schemas.UserDelete):
+    db_user = models.User(id=user.id)
+    db.delete(db_user)
+    db.commit()
+    return {"ok": True}

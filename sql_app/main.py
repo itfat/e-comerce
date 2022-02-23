@@ -1,4 +1,5 @@
 from typing import List
+from urllib import response
 
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
@@ -40,6 +41,14 @@ def delete_user(user_id: int, db: Session = Depends(get_db)):
         return {"ok": True}
     
     # return crud.delete_user(db=db, user_id=user_id)
+
+@app.put("users/update/{user_id}", response_model=schemas.User)
+def update_user(user_id: int, db: Session = Depends(get_db)):
+    db_user = crud.get_user(db, user_id=user_id)
+
+    if not db_user:
+        raise HTTPException(status_code=302, detail="User does not exist")
+        
 
 
 @app.get("/users/", response_model=List[schemas.User])

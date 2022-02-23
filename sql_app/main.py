@@ -37,6 +37,8 @@ def delete_user(user_id: int, db: Session = Depends(get_db)):
     else:
         db.delete(db_user) 
         db.commit()
+        return {"ok": True}
+    
     # return crud.delete_user(db=db, user_id=user_id)
 
 
